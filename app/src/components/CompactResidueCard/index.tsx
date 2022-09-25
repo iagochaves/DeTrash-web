@@ -4,7 +4,7 @@ import { ForwardRefExoticComponent } from 'react';
 
 type CompactResidueCardProps = {
   isActive: boolean;
-  setValue: (value: string) => void;
+  setValue: (value: any) => void;
   wasteInfo: {
     Icon: ForwardRefExoticComponent<any>;
     key: string;

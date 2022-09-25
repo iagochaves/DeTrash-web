@@ -1,13 +1,20 @@
 import classNames from 'classnames';
-import { DownloadSimple, X } from 'phosphor-react';
+import { DownloadSimple, Warning } from 'phosphor-react';
 import { useMemo, useState } from 'react';
-import { ResidueType, useFormByIdQuery } from 'src/graphql/generated/graphql';
+import {
+  DocumentType,
+  ResidueType,
+  useFormByIdQuery,
+  useFormDocumentsUrlByResidueLazyQuery,
+} from 'src/graphql/generated/graphql';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
 import { CompactResidueCard } from '../CompactResidueCard';
 
 type FormActionButtonProps = {
-  label: string;
-  isDisabled?: boolean;
+  formId: string;
+  isDisabled: boolean;
+  documentType: DocumentType;
+  residueType: ResidueType;
 };
 
 type Residues = {
@@ -19,46 +26,50 @@ type Residues = {
 };
 
 const FormActionButton: React.FC<FormActionButtonProps> = ({
-  label,
+  formId,
   isDisabled,
+  documentType,
+  residueType,
 }) => {
+  const [useFormDocumentsUrlByResidueQuery, { loading: isDownloadingFile }] =
+    useFormDocumentsUrlByResidueLazyQuery();
+
+  const loadVideoAndOpen = async () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data } = await useFormDocumentsUrlByResidueQuery({
+      variables: { formId, residueType, documentType },
+    });
+
+    if (data) {
+      window.open(data.formDocumentsUrlByResidue, '_blank');
+    }
+  };
+
   return (
     <button
       className={classNames(
         'btn btn-sm btn-primary text-white flex items-center gap-1',
         {
           'btn-disabled': isDisabled,
+          'loading btn-disabled': isDownloadingFile,
         }
       )}
+      onClick={loadVideoAndOpen}
     >
       <DownloadSimple className="w-6 h-6" />
-      <p>Download {label}</p>
+      <p>Download {documentType}</p>
     </button>
   );
 };
 
 export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
-  const [selectedResidueCard, setSelectedResidueCard] = useState('');
+  const [selectedResidueCard, setSelectedResidueCard] = useState<ResidueType>();
 
-  const { data, error, loading } = useFormByIdQuery({
+  const { data, loading } = useFormByIdQuery({
     variables: {
       FORM_ID: formId,
     },
   });
-
-  // const [useFormVideoUrlQuery, { loading: isDownloadingFile }] =
-  //   useFormVideoUrlLazyQuery();
-
-  // const loadVideoAndOpen = async (formId: string, residueType: ResidueType) => {
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   const { data } = await useFormVideoUrlQuery({
-  //     variables: { formId, residueType },
-  //   });
-
-  //   if (data) {
-  //     window.open(data.formVideoUrlByResidue, '_blank');
-  //   }
-  // };
 
   const formattedResidues: Residues = useMemo(() => {
     if (data) {
@@ -98,21 +109,25 @@ export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
   }
   return (
     <div>
-      <p className="mb-1">
-        Wallet Address:{' '}
-        <span className="font-bold">
-          {data.form.walletAddress || 'No wallet submitted'}
-        </span>
-      </p>
+      <section className="grid sm:grid-cols-2 gap-2 mb-5">
+        <p>
+          Wallet Address:{' '}
+          <span className="font-bold">
+            {data.form.walletAddress || 'No wallet submitted'}
+          </span>
+        </p>
 
-      <h2 className="mb-5">
-        Select the residue type below in order to download Video and Invoices if
-        available
-      </h2>
+        <p>
+          Email Address:{' '}
+          <span className="font-bold">{data.form.user.email}</span>
+        </p>
+      </section>
 
-      <div className="grid grid-cols-1 sm:flex sm:items-center sm:justify-end gap-2 mb-2">
+      <div className="grid grid-cols-1 sm:flex sm:items-center  gap-2 mb-2">
         <FormActionButton
-          label="Video"
+          formId={formId}
+          residueType={selectedResidueCard!}
+          documentType={DocumentType.Video}
           isDisabled={
             !(
               selectedResidueCard &&
@@ -121,7 +136,9 @@ export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
           }
         />
         <FormActionButton
-          label="Invoice"
+          formId={formId}
+          residueType={selectedResidueCard!}
+          documentType={DocumentType.Invoice}
           isDisabled={
             !(
               selectedResidueCard &&
@@ -141,6 +158,13 @@ export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
               wasteInfo={wasteType}
             />
           ))}
+      </div>
+      <div className="flex items-center gap-2 mt-2">
+        <Warning className="text-warning w-6 h-6" weight="fill" />
+        <h2 className="text-sm">
+          Select the residue type above in order to download Video and Invoices
+          if available
+        </h2>
       </div>
     </div>
   );

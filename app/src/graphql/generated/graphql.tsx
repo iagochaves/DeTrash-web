@@ -54,6 +54,12 @@ export type CreateUserInput = {
   profileType: ProfileType;
 };
 
+/** Represents the document type */
+export enum DocumentType {
+  Invoice = 'INVOICE',
+  Video = 'VIDEO'
+}
+
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
@@ -76,12 +82,6 @@ export type Form = {
   plasticVideoFileName?: Maybe<Scalars['String']>;
   user: User;
   walletAddress?: Maybe<Scalars['String']>;
-};
-
-export type GetFormDocumentsUrl = {
-  __typename?: 'GetFormDocumentsUrl';
-  invoiceFileUrl?: Maybe<Scalars['String']>;
-  videoFileUrl?: Maybe<Scalars['String']>;
 };
 
 export type Me = {
@@ -144,7 +144,7 @@ export type Query = {
   __typename?: 'Query';
   aggregateFormByUserProfile: Array<AggregateFormByUserProfileResponse>;
   form: Form;
-  formDocumentsUrlByResidue: GetFormDocumentsUrl;
+  formDocumentsUrlByResidue: Scalars['String'];
   forms: Array<Form>;
   me: Me;
   user: User;
@@ -158,6 +158,7 @@ export type QueryFormArgs = {
 
 
 export type QueryFormDocumentsUrlByResidueArgs = {
+  documentType: DocumentType;
   formId: Scalars['String'];
   residueType: ResidueType;
 };
@@ -267,10 +268,11 @@ export type FormByIdQuery = { __typename?: 'Query', form: { __typename?: 'Form',
 export type FormDocumentsUrlByResidueQueryVariables = Exact<{
   formId: Scalars['String'];
   residueType: ResidueType;
+  documentType: DocumentType;
 }>;
 
 
-export type FormDocumentsUrlByResidueQuery = { __typename?: 'Query', formDocumentsUrlByResidue: { __typename?: 'GetFormDocumentsUrl', invoiceFileUrl?: string | null, videoFileUrl?: string | null } };
+export type FormDocumentsUrlByResidueQuery = { __typename?: 'Query', formDocumentsUrlByResidue: string };
 
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -549,11 +551,12 @@ export type FormByIdQueryHookResult = ReturnType<typeof useFormByIdQuery>;
 export type FormByIdLazyQueryHookResult = ReturnType<typeof useFormByIdLazyQuery>;
 export type FormByIdQueryResult = Apollo.QueryResult<FormByIdQuery, FormByIdQueryVariables>;
 export const FormDocumentsUrlByResidueDocument = gql`
-    query FormDocumentsUrlByResidue($formId: String!, $residueType: ResidueType!) {
-  formDocumentsUrlByResidue(formId: $formId, residueType: $residueType) {
-    invoiceFileUrl
-    videoFileUrl
-  }
+    query FormDocumentsUrlByResidue($formId: String!, $residueType: ResidueType!, $documentType: DocumentType!) {
+  formDocumentsUrlByResidue(
+    formId: $formId
+    residueType: $residueType
+    documentType: $documentType
+  )
 }
     `;
 
@@ -571,6 +574,7 @@ export const FormDocumentsUrlByResidueDocument = gql`
  *   variables: {
  *      formId: // value for 'formId'
  *      residueType: // value for 'residueType'
+ *      documentType: // value for 'documentType'
  *   },
  * });
  */

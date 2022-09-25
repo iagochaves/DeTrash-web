@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-import { Download } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import { ResidueType } from 'src/graphql/generated/graphql';
 import TableComponent, { ColumnProps } from '../Table';

@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   FormsQuery,
   useAuthorizeFormMutation,
-  useFormByIdQuery,
 } from 'src/graphql/generated/graphql';
 import { FormDetailsModal } from '../FormDetailsModal';
 import Modal from '../Modal';
