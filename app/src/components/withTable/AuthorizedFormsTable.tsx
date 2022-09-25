@@ -270,6 +270,18 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
             <FormDetailsModal formId={authorizedFormAction?.form.id!} />
           )
         }
+        footer={
+          modalType === 'Authorization' ? (
+            <></>
+          ) : (
+            <button
+              className="btn btn-primary text-white w-full sm:w-auto"
+              onClick={() => setModalOpen(false)}
+            >
+              CLOSE
+            </button>
+          )
+        }
       />
     </>
   );

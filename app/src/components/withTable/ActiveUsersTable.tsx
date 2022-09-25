@@ -95,6 +95,7 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
               isLoading={isLoading}
             />
           }
+          footer={<></>}
         />
       )}
     </>
