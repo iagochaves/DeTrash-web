@@ -36,6 +36,10 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
   const columns = useMemo<ColumnProps<FormDetail>>(() => {
     return [
       {
+        key: 'id',
+        title: 'Form ID',
+      },
+      {
         key: 'glassKgs',
         title: 'Glass Kgs',
         cell: (form) => {

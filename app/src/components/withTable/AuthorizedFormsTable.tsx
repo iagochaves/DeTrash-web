@@ -6,6 +6,7 @@ import {
   useAuthorizeFormMutation,
   useFormByIdQuery,
 } from 'src/graphql/generated/graphql';
+import { FormDetailsModal } from '../FormDetailsModal';
 import Modal from '../Modal';
 import { Select } from '../Select';
 import TableComponent, { ColumnProps } from '../Table';
@@ -86,23 +87,6 @@ const AuthorizationModal: React.FC<AuthorizationModalProps> = ({
   );
 };
 
-const FormDetails: React.FC<{ formId: string }> = ({ formId }) => {
-  const { data, error, loading } = useFormByIdQuery({
-    variables: {
-      FORM_ID: formId,
-    },
-  });
-
-  return (
-    <UserFormDetails
-      formDetails={data ? [data.form!] : []}
-      hasVideoAccess
-      hasError={!!error}
-      isLoading={loading}
-    />
-  );
-};
-
 const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
   forms,
   isLoading,
@@ -118,7 +102,7 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
   const [authorizedFormAction, setAuthorizedFormAction] =
     useState<AuthorizeFormActionType>();
   const [selectedFilter, setSelectedFilter] =
-    useState<AuthorizationFilterTypes>(AuthorizationFilterTypes.ALL);
+    useState<AuthorizationFilterTypes>(AuthorizationFilterTypes.PENDING);
   const [formsByFilter, setFormsByFilter] = useState<FormsType[] | undefined>(
     []
   );
@@ -276,7 +260,7 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
         title={
           modalType === 'Authorization'
             ? 'Confirm form authorization'
-            : 'Form Details'
+            : `Form #${authorizedFormAction?.form.id}`
         }
         content={
           modalType === 'Authorization' ? (
@@ -285,7 +269,7 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
               onCloseModal={() => setModalOpen(false)}
             />
           ) : (
-            <FormDetails formId={authorizedFormAction?.form.id!} />
+            <FormDetailsModal formId={authorizedFormAction?.form.id!} />
           )
         }
       />

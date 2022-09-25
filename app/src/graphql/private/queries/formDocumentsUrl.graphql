@@ -1,0 +1,6 @@
+query FormDocumentsUrlByResidue($formId: String!, $residueType: ResidueType!) {
+  formDocumentsUrlByResidue(formId: $formId, residueType: $residueType) {
+    invoiceFileUrl
+    videoFileUrl
+  }
+}
