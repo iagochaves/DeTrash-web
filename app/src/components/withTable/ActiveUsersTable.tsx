@@ -90,7 +90,6 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
           title="User Form Details"
           content={
             <UserFormDetails
-              hasVideoAccess
               formDetails={currentUser.forms}
               hasError={hasError}
               isLoading={isLoading}

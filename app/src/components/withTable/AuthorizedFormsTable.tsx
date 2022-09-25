@@ -10,7 +10,6 @@ import { FormDetailsModal } from '../FormDetailsModal';
 import Modal from '../Modal';
 import { Select } from '../Select';
 import TableComponent, { ColumnProps } from '../Table';
-import UserFormDetails from './UserFormDetails';
 
 export type FormsType = FormsQuery['forms'][0];
 
