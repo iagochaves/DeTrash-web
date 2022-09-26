@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { toBlob } from 'html-to-image';
+import { toast } from 'react-toastify';
 import {
   useCreateNftMutation,
   useSubmitFormImageMutation,
@@ -12,6 +13,13 @@ export const useGenerateNFT = (formId: string) => {
   const [useCreateNft] = useCreateNftMutation();
 
   const handleFormAudit = async () => {
+    toast.info('Generating NFT metadata, please wait', {
+      position: 'bottom-right',
+      autoClose: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      progress: undefined,
+    });
     const { data } = await useSubmitFormImage({
       variables: {
         FORM_ID: formId,
@@ -47,7 +55,18 @@ export const useGenerateNFT = (formId: string) => {
             type: 'application/json',
           });
 
-          uploadToS3(nftData.createNFT.createMetadataUrl, metadataFile);
+          await uploadToS3(nftData.createNFT.createMetadataUrl, metadataFile);
+
+          toast.dismiss();
+          toast.success('NFT metadata generated with success', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       }
     }
