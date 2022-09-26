@@ -1,13 +1,7 @@
 import classNames from 'classnames';
 import { DownloadSimple } from 'phosphor-react';
-import { useState } from 'react';
-import {
-  DocumentType,
-  ResidueType,
-  useFormDocumentsUrlByResidueLazyQuery,
-} from 'src/graphql/generated/graphql';
+import { DocumentType, ResidueType } from 'src/graphql/generated/graphql';
 import { useFileDownloader } from 'src/hooks/useFileDownloader';
-import { generateDownload } from 'src/utils/generateDownload';
 
 type FormActionButtonProps = {
   formId: string;
