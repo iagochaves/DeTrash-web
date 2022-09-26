@@ -57,7 +57,6 @@ export const FormDetailsModalFooter: React.FC<FormDetailsModalFooter> = ({
       </div>
     );
   }
-
   return (
     <section className="flex flex-1 justify-between items-center">
       <h2 className="text-sm sm:text-base">Status: {getFormStatusText()}</h2>
