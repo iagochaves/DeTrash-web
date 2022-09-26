@@ -6,6 +6,7 @@ import {
   ResidueType,
   useFormDocumentsUrlByResidueLazyQuery,
 } from 'src/graphql/generated/graphql';
+import { generateDownload } from 'src/utils/generateDownload';
 
 type FormActionButtonProps = {
   formId: string;
@@ -32,13 +33,15 @@ export const FormActionButton: React.FC<FormActionButtonProps> = ({
     });
 
     if (data) {
-      const link = document.createElement('a');
-      link.href = data.formDocumentsUrlByResidue;
-      link.setAttribute('download', '');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      // window.open(data.formDocumentsUrlByResidue, '_blank');
+      const fetchData = await fetch(data.formDocumentsUrlByResidue);
+      const blob = await fetchData.blob();
+
+      const href = window.URL.createObjectURL(blob);
+
+      const { pathname } = new window.URL(data.formDocumentsUrlByResidue);
+      const [fileName] = pathname.split('/').slice(-1);
+
+      generateDownload(href, fileName);
     }
     setIsDownloadFile(false);
   };
