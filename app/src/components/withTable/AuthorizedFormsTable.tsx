@@ -1,4 +1,5 @@
-import { Article, Check, X } from 'phosphor-react';
+import { format } from 'date-fns';
+import { Article, Check, Gear, X } from 'phosphor-react';
 import { useEffect, useMemo, useState } from 'react';
 import { FormsQuery } from 'src/graphql/generated/graphql';
 import { FormDetailsModal } from '../FormDetailsModal';
@@ -23,52 +24,6 @@ const AUTHORIZATION_FILTERS = [
   AuthorizationFilterTypes.CONCLUED,
   AuthorizationFilterTypes.PENDING,
 ];
-
-// const AuthorizationModal: React.FC<AuthorizationModalProps> = ({
-//   authorizationForm,
-//   onCloseModal,
-// }) => {
-//   const [authorizeFormMutation, { loading }] = useAuthorizeFormMutation();
-
-//   const handleOnFormAuthorization = () => {
-//     authorizeFormMutation({
-//       variables: {
-//         FORM_ID: authorizationForm.form.id,
-//         FORM_STATUS: authorizationForm.status,
-//       },
-//     });
-//     onCloseModal();
-//   };
-
-//   return (
-//     <div>
-//       <p className="text-sm">
-//         You are about to{' '}
-//         {authorizationForm.status ? (
-//           <span className="text-success">approve</span>
-//         ) : (
-//           <span className="text-error">decline</span>
-//         )}{' '}
-//         the form issued by {authorizationForm?.form.user.email}. Are you sure?
-//       </p>
-
-//       <p className="text-sm font-bold">This action is irreversible</p>
-//       <div className="flex items-center justify-end gap-3 mt-4">
-//         <button onClick={onCloseModal} className="btn btn-outline">
-//           CANCEL
-//         </button>
-//         <button
-//           className={classNames('btn btn-primary text-white', {
-//             'btn-disabled loading': loading,
-//           })}
-//           onClick={handleOnFormAuthorization}
-//         >
-//           CONFIRM
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
 
 const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
   forms,
@@ -130,6 +85,13 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
         title: 'Issued By',
         cell(form) {
           return <p>{form.user.email}</p>;
+        },
+      },
+      {
+        key: 'createdAt',
+        title: 'Created At',
+        cell: (form) => {
+          return <p>{format(new Date(form.createdAt), 'MM/dd/yyyy HH:mm')}</p>;
         },
       },
       {
@@ -202,6 +164,22 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
           setRowsCount(newRowsCount);
         }}
         totalCount={formsByFilter?.length || 0}
+        additionalFeature={(form) => {
+          if (form.formMetadataUrl) {
+            return (
+              <a
+                className="btn btn-sm btn-ghost py-1 px-2 btn-neutral flex items-center gap-1 whitespace-nowrap"
+                href={form.formMetadataUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <p>NFT metadata</p>
+                <Gear className="hidden sm:block h-6 w-6" />
+              </a>
+            );
+          }
+          return <></>;
+        }}
       />
 
       {selectedForm && (

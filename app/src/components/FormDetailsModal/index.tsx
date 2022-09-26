@@ -16,11 +16,16 @@ export const FormDetailsModal: React.FC<FormDetailsModalProps> = ({
   setModalOpen,
 }) => {
   const { handleFormAudit } = useGenerateNFT(formId);
-  const { data, loading } = useFormByIdQuery({
+  const { data, loading, client } = useFormByIdQuery({
     variables: {
       FORM_ID: formId,
     },
   });
+
+  const onFormAudit = async () => {
+    await handleFormAudit();
+    await client.resetStore();
+  };
 
   const form = data?.form;
 
@@ -32,7 +37,7 @@ export const FormDetailsModal: React.FC<FormDetailsModalProps> = ({
       content={<FormDetailsModalBody formData={data} isLoading={loading} />}
       footer={
         <FormDetailsModalFooter
-          onFormAudit={handleFormAudit}
+          onFormAudit={onFormAudit}
           formId={formId}
           isFormAuthorizedByAdmin={form?.isFormAuthorizedByAdmin!}
           isLoading={loading}
