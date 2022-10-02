@@ -1,6 +1,9 @@
 query AggregateFormTypes {
   aggregateFormByUserProfile {
     id
-    data
+    data {
+      amount
+      residueType
+    }
   }
 }

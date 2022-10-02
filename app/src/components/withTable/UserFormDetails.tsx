@@ -27,28 +27,25 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
 
-  const wasteTypesColumns = USER_WASTE_TYPES.map((wasteType) => {
-    return {
-      key: wasteType.key,
-      title: `${wasteType.value} Kgs`,
-      cell: (form: FormDetail) => {
-        const residueAmount = form.documents.find(
-          (document) => document.residueType === wasteType.key
-        );
-        return <p>{`${residueAmount?.amount || 0} Kgs`}</p>;
-      },
-    };
-  });
-
   const columns = useMemo<ColumnProps<any>>(() => {
     return [
       {
         key: 'id',
         title: 'Form ID',
       },
-      ...wasteTypesColumns,
+      ...USER_WASTE_TYPES.map((wasteType) => {
+        return {
+          key: wasteType.key,
+          title: `${wasteType.value} Kgs`,
+          cell: (form: FormDetail) => {
+            const residueAmount = form.documents.find(
+              (document) => document.residueType === wasteType.key
+            );
+            return <p>{`${residueAmount?.amount || 0} Kgs`}</p>;
+          },
+        };
+      }),
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dataByPage =

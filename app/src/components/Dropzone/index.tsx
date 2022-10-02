@@ -72,7 +72,6 @@ const Dropzone: React.FC<DropzoneProps> = ({
           uploadedFiles.some((file) => file.name !== currentFile.name)
         );
         const totalFiles = [...uploadedFiles, ...oldFiles!];
-        console.log('newFiles', totalFiles);
         setFiles(totalFiles);
         return;
       }
