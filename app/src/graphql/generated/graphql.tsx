@@ -18,8 +18,14 @@ export type Scalars = {
 
 export type AggregateFormByUserProfileResponse = {
   __typename?: 'AggregateFormByUserProfileResponse';
-  data: Scalars['Float'];
+  data: Array<AggregateFormData>;
   id: ProfileType;
+};
+
+export type AggregateFormData = {
+  __typename?: 'AggregateFormData';
+  amount: Scalars['Float'];
+  residueType: ResidueType;
 };
 
 export type CreateFormInput = {
@@ -277,7 +283,7 @@ export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __type
 export type AggregateFormTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: number }> };
+export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: Array<{ __typename?: 'AggregateFormData', amount: number, residueType: ResidueType }> }> };
 
 export type DocumentInvoicesUrlByResidueQueryVariables = Exact<{
   formId: Scalars['String'];
@@ -550,7 +556,10 @@ export const AggregateFormTypesDocument = gql`
     query AggregateFormTypes {
   aggregateFormByUserProfile {
     id
-    data
+    data {
+      amount
+      residueType
+    }
   }
 }
     `;
