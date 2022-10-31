@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import { Article, Coin, Recycle, TrendUp } from 'phosphor-react';
 import { useMemo } from 'react';
 import StackedStats from 'src/components/StackedStats';
@@ -22,6 +23,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     useUserStatsComparison();
 
   const { t } = useTranslation();
+  const { locale } = useRouter();
 
   const highlitedPanel = useMemo(() => {
     if (user) {
@@ -73,8 +75,10 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     );
   }, [user?.me.forms]);
 
+  const currentDateFormat = locale === 'en' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+
   const lastLoginDate = user?.me.lastLoginDate
-    ? format(new Date(user?.me.lastLoginDate), 'MM/dd/yyyy HH:mm')
+    ? format(new Date(user?.me.lastLoginDate), `${currentDateFormat} HH:mm`)
     : '';
 
   if (isLoading || !user || isLoadingStats) {

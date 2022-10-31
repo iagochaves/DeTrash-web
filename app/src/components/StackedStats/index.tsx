@@ -15,7 +15,7 @@ type StackedStatsProps = {
     value: string;
     icon: ForwardRefExoticComponent<any>;
   }[];
-  comment: string;
+  comment?: string;
 };
 
 const StackedStats: React.FC<StackedStatsProps> = ({

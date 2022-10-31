@@ -1,4 +1,5 @@
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { ResidueType } from 'src/graphql/generated/graphql';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
@@ -29,6 +30,8 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
   isLoading = false,
 }) => {
   const { t } = useTranslation('common');
+  const { locale } = useRouter();
+
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
 
@@ -65,13 +68,13 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
           key: wasteType.key,
           title: `${t(wasteType.value.toLowerCase())} Kgs`,
           cell: (form: UsersFormType) => {
-            const amount = formatNumber(form[wasteType.key] || 0);
+            const amount = formatNumber(form[wasteType.key] || 0, locale);
             return <p>{`${amount} Kgs`}</p>;
           },
         };
       }),
     ];
-  }, []);
+  }, [locale, t]);
 
   const dataByPage =
     formattedData?.slice((page - 1) * rowsCount, rowsCount * page) || [];

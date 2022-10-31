@@ -1,4 +1,5 @@
 import { getAccessToken, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { getMeServerQuery } from '../graphql/ssrQueries';
 import { getAdminAccess } from './getAdminAccess';
 import { APP_NAV_LINKS } from './navLinks';
@@ -48,7 +49,7 @@ const checkOnboardingAccess = withPageAuthRequired({
 });
 
 const checkAdminAccess = withPageAuthRequired({
-  async getServerSideProps({ req, res }) {
+  async getServerSideProps({ req, res, locale }) {
     const { accessToken } = await getAccessToken(req, res);
     const user = await getMeServerQuery(accessToken!);
     if (!user) {
@@ -56,10 +57,12 @@ const checkAdminAccess = withPageAuthRequired({
     }
 
     const isAdmin = getAdminAccess(user.data.data);
+
     return {
       props: {
         ...user.data,
         isAdmin,
+        ...(await serverSideTranslations(locale ?? 'en', ['common', 'admin'])),
       },
     };
   },
