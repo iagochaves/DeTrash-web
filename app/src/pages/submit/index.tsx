@@ -12,7 +12,6 @@ import {
 import { usePageLoader } from 'src/hooks/usePageLoader';
 import { useSubmitForm } from 'src/hooks/useSubmitForm';
 import FormLayout from 'src/layout/FormLayout';
-import { withPrivateApollo } from 'src/lib/withPrivateApollo';
 import { FORM_STEPS, USER_ROLE_TYPES } from 'src/utils/constants';
 import { RecyFormSchema } from 'src/utils/YupSchema';
 import { useAccount } from 'wagmi';
@@ -149,4 +148,4 @@ const SubmitRecyForm: React.FC = () => {
   );
 };
 
-export default withPrivateApollo(SubmitRecyForm);
+export default SubmitRecyForm;

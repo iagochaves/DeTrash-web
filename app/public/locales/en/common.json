@@ -1,0 +1,23 @@
+{
+  "dashboard": "Dashboard",
+  "submit_form": "Submit Form",
+  "admin_panel": "Administrator Panel",
+  "connect_wallet": "Connect Wallet",
+  "your_profile": "Your Profile",
+  "sign_out": "Sign Out",
+
+  "glass": "Glass",
+  "metal": "Metal",
+  "organic": "Organic",
+  "paper": "Paper",
+  "plastic": "Plastic",
+
+  "submit_report_title": "Submit your report",
+  "submit_report_description": "Submit a form and earn some cRECYS!",
+  "submit_report_button": "Submit",
+  "not_allowed_submit_form": "You can't submit a form being a Hodler",
+
+  "table_show": "Show",
+  "table_search": "Search...",
+  "table_offset": "of"
+}

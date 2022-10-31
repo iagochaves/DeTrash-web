@@ -1,0 +1,12 @@
+{
+  "welcome_to_app": "Bem-vindo(a), ",
+  "last_login": "Último login: ",
+  "total_residues_reported": "Total de resíduos reportados em Kgs",
+  "total_forms_submitted": "Total de formulários enviados",
+  "total_crecy_earned": "Total de cRECY na carteira",
+  "past_30_days": "últimos 30 dias.",
+
+  "residues_reported": "Resíduos reportados",
+
+  "forms_submitted": "Formulários enviados"
+}

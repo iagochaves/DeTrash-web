@@ -1,0 +1,23 @@
+{
+  "dashboard": "Painel de usuário",
+  "submit_form": "Submeter Formulário",
+  "admin_panel": "Painel de administrador",
+  "connect_wallet": "Conectar carteira",
+  "your_profile": "Seu perfil",
+  "sign_out": "Deslogar",
+
+  "glass": "Vidro",
+  "metal": "Metal",
+  "organic": "Orgânico",
+  "paper": "Papel",
+  "plastic": "Plástico",
+
+  "submit_report_title": "Envie seu formulário",
+  "submit_report_description": "Envie um formulário e ganhe cRECYS!",
+  "submit_report_button": "Enviar formulário",
+  "not_allowed_submit_form": "Você não pode enviar formulário sendo Hodler",
+
+  "table_show": "Mostrar",
+  "table_search": "Pesquisar...",
+  "table_offset": "de"
+}
