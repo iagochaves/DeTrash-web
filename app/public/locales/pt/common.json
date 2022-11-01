@@ -1,8 +1,9 @@
 {
-  "dashboard": "Painel de usuário",
+  "dashboard": "Dashboard",
   "submit_form": "Submeter Formulário",
   "admin_panel": "Painel de administrador",
   "connect_wallet": "Conectar carteira",
+  "wallet": "Carteira",
   "your_profile": "Seu perfil",
   "sign_out": "Deslogar",
 
@@ -27,5 +28,11 @@
 
   "form": "Formulário",
   "invoice": "Nota Fiscal",
-  "video": "Vídeo"
+  "video": "Vídeo",
+
+  "preffered_name": "Nome de preferência",
+  "type_name": "Digite seu nome",
+  "phone_number": "Número de telefone",
+  "type_number": "Digite seu número de telefone",
+  "im": "SOU"
 }

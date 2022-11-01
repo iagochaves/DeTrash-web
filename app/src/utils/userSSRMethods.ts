@@ -20,7 +20,7 @@ const REDIRECS_TO = {
 };
 
 const checkUserAccess = withPageAuthRequired({
-  async getServerSideProps({ req, res }) {
+  async getServerSideProps({ req, res, locale }) {
     const { accessToken } = await getAccessToken(req, res);
     const user = await getMeServerQuery(accessToken!);
     if (!user) {
@@ -28,13 +28,20 @@ const checkUserAccess = withPageAuthRequired({
     }
 
     return {
-      props: user.data,
+      props: {
+        ...user.data,
+        ...(await serverSideTranslations(locale ?? 'en', [
+          'common',
+          'admin',
+          'profile',
+        ])),
+      },
     };
   },
 });
 
 const checkOnboardingAccess = withPageAuthRequired({
-  async getServerSideProps({ req, res }) {
+  async getServerSideProps({ req, res, locale }) {
     const { accessToken } = await getAccessToken(req, res);
     const user = await getMeServerQuery(accessToken!);
 
@@ -43,7 +50,12 @@ const checkOnboardingAccess = withPageAuthRequired({
     }
 
     return {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(locale ?? 'en', [
+          'common',
+          'onboarding',
+        ])),
+      },
     };
   },
 });

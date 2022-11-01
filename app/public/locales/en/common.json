@@ -3,6 +3,7 @@
   "submit_form": "Submit Form",
   "admin_panel": "Administrator Panel",
   "connect_wallet": "Connect Wallet",
+  "wallet": "Wallet",
   "your_profile": "Your Profile",
   "sign_out": "Sign Out",
 
@@ -27,5 +28,11 @@
 
   "form": "Form",
   "invoice": "Invoice",
-  "video": "Video"
+  "video": "Video",
+
+  "preffered_name": "Preferred Name",
+  "type_name": "Type your name",
+  "phone_number": "Phone Number",
+  "type_number": "Type your phone number",
+  "im": "I'M"
 }
